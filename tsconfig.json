@@ -1,0 +1,20 @@
+{
+"compilerOptions": {
+    "allowJs": true,
+    "checkJs": false,
+    "jsx": "react-native",
+    "strict": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "target": "esnext",
+    "moduleResolution": "node",
+    "types": ["react", "react-native"]
+  },
+  "extends": "expo/tsconfig.base",
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
+, "components/ui/IconSymbol.ios.jsx", "components/ui/IconSymbol.jsx", "components/ui/TabBarBackground.ios.jsx", "components/ui/TabBarBackground.jsx", "components/Collapsible.jsx", "components/ExternalLink.jsx", "components/HapticTab.jsx", "components/HelloWave.jsx", "components/ThemedView.jsx", "components/ThemedText.jsx", "components/ParallaxScrollView.jsx", "constants/Colors.js", "hooks/useThemeColor.js", "hooks/useColorScheme.web.js", "hooks/useColorScheme.js", "styles/common/common.style.jsx", "assets/images/lock.jsx", "assets/images/google.jsx", "styles/HeaderStyles/Headercheckout.jsx"  ]
+}

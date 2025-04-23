@@ -1,0 +1,59 @@
+{
+  "expo": {
+    "name": "LUA",
+    "slug": "lua",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/logomain.png",
+    "scheme": "myapp",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.lua.lua"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/logomain.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.lua.lua",
+      "googleServicesFile":"./google-services.json"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/logomain.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff"
+        }
+      ],
+      [
+        "expo-video",
+        {
+          "supportsBackgroundPlayback": true,
+          "supportsPictureInPicture": true
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "a746e465-d739-45dc-acbb-74f7ed6f4316"
+      }
+    }
+  }
+}
