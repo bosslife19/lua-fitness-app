@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Platform, Alert } from "react-native";
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import RNPickerSelect from "react-native-picker-select";
 import { Ionicons } from "@expo/vector-icons";
 import SectionsLogin from "../../../styles/Login/Login.styles";
@@ -12,7 +12,7 @@ export default function PersonalizationDetails({ onNext }) {
   const [gender, setGender] = useState("");
   const [fitnessLevel, setFitnessLevel] = useState("");
   const [fitnessGoals, setFitnessGoals] = useState("");
-  const [date, setDate] = useState(new Date(1598051730000));
+  const [date, setDate] = useState(null);
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
 
@@ -64,7 +64,22 @@ export default function PersonalizationDetails({ onNext }) {
     // if it will skip to the next page
     onNext(); 
  }
- 
+ const showDatePicker = () => {
+  if (Platform.OS === 'android') {
+    DateTimePickerAndroid.open({
+      value: new Date(),
+      mode: 'date',
+      is24Hour: true,
+      onChange: (event, selectedDate) => {
+        if (selectedDate) {
+          setDate(selectedDate);
+        }
+      },
+    });
+  } else {
+    setOpen(true); // for iOS
+  }
+};
   return (
     <View style={{ paddingHorizontal: "5%" }}>
        <Text 
@@ -98,24 +113,29 @@ export default function PersonalizationDetails({ onNext }) {
         </Text>
       {/* Date of Birth */}
       <View style={[styles.inputContainer,{paddingVertical: Platform.OS === "ios" ? 15 : 7,}]}>
-      {show && (
+      {show && Platform.OS=='ios' && (
         <DateTimePicker
           testID="dateTimePicker"
-          value={date}
+          value={new Date()}
           mode={mode}
           is24Hour={true}
           onChange={onChange}
         />
       )}
+       <TouchableOpacity onPress={showDatePicker}>
         <TextInput
           style={styles.input}
-          placeholder="Date of Birth "
+          placeholder="Date of Birth"
           placeholderTextColor="#94A3B8"
-          value={date}
-          onChangeText={setDob}
-          keyboardType="numeric"
-          onFocus={()=>showDatepicker()}
+          value={date? date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          }):""}
+          editable={false}
+          pointerEvents="none"
         />
+      </TouchableOpacity>
       </View>
 
       {/* Gender Dropdown */}

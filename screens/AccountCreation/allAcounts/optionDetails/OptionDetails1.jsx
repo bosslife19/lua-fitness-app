@@ -1,8 +1,15 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Button } from "react-native";
+import DatePicker, { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
+import { now } from "moment";
+import axiosClient from "../../../../axiosClient";
+import { Platform } from "react-native";
 
 export default function OptionDetails1({ onNext }) {
-  const [selectedCycle, setSelectedCycle] = useState(null);
+  // const [selectedCycle, setSelectedCycle] = useState(null);
+  // const [selectedCycle, setSelectedCycle] = useState(null);
+  const [startDate, setStartDate] = useState(new Date());
+  const [open, setOpen] = useState(false); // for modal picker if you prefer
 
   const cycleOptions = [
     { label: "🌞 Morning", value: "Morning" },
@@ -15,68 +22,75 @@ export default function OptionDetails1({ onNext }) {
     onNext();
   };
 
-  const handleProceed =()=>{
-
-    // if sucessfull it will go to the next page
-    onNext(); 
+  const handleProceed =async()=>{
+ try {
+ 
+  const res = await axiosClient.post('/register', {
+    menstrualStart: startDate
+  })
+  
+  onNext(); 
+ } catch (error) {
+  console.log(error)
+ }
+    
+   
   }
+  const showDatePicker = () => {
+    if (Platform.OS === 'android') {
+      DateTimePickerAndroid.open({
+        value: startDate,
+        mode: 'date',
+        is24Hour: true,
+        onChange: (event, selectedDate) => {
+          if (selectedDate) {
+            setStartDate(selectedDate);
+          }
+        },
+      });
+    } else {
+      setOpen(true); // for iOS
+    }
+  };
+  
   return (
     <View style={styles.container}>
-      <Text style={styles.headerText}>Optional Details</Text>
-         <Text style={styles.desc}>
-         What’s your start date for menstrual tracking?
-        </Text>
-      {/* First Two Options */}
-      <View style={styles.row}>
-        {cycleOptions.slice(0, 2).map((option) => (
-          <TouchableOpacity
-            key={option.value}
-            style={[
-              styles.optionButton,
-              selectedCycle === option.value && styles.selectedOption,
-            ]}
-            onPress={() => setSelectedCycle(option.value)}
-          >
-            <Text
-              style={[
-                styles.optionText,
-                selectedCycle === option.value && styles.selectedOptionText,
-              ]}
-            >
-              {option.label}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+    <Text style={styles.headerText}>Optional Details</Text>
+    <Text style={styles.desc}>
+      What’s your start date for menstrual tracking?
+    </Text>
 
-      {/* Last Option Centered */}
-      <TouchableOpacity
-        style={[
-          styles.optionButton,
-          styles.centeredOption,
-          selectedCycle === cycleOptions[2].value && styles.selectedOption,
-        ]}
-        onPress={() => setSelectedCycle(cycleOptions[2].value)}
-      >
-        <Text
-          style={[
-            styles.optionText,
-            selectedCycle === cycleOptions[2].value && styles.selectedOptionText,
-          ]}
-        >
-          {cycleOptions[2].label}
-        </Text>
-      </TouchableOpacity>
+    {/* Date Picker Section */}
+    <TouchableOpacity onPress={showDatePicker} style={styles.dateButton}>
+  <Text style={styles.dateText}>
+    {startDate ? startDate.toDateString() : "Pick a date to start your menstrual tracking"}
+  </Text>
+</TouchableOpacity>
 
-      {/* Proceed Button */}
-      <TouchableOpacity style={styles.button} onPress={handleProceed}>
-        <Text style={styles.buttonText}>Proceed</Text>
-      </TouchableOpacity>
+{Platform.OS === 'ios' && open && (
+  <DatePicker
+    value={startDate}
+    mode="date"
+    display="default"
+    onChange={(event, selectedDate) => {
+      setOpen(false);
+      if (selectedDate) {
+        setStartDate(selectedDate);
+      }
+    }}
+  />
+)}
 
-       <TouchableOpacity style={styles.btns} onPress={handleSkip} >
-                  <Text style={styles.buttons}>Skip</Text>
-         </TouchableOpacity>
-    </View>
+   
+
+    <TouchableOpacity style={styles.button} onPress={handleProceed}>
+      <Text style={styles.buttonText}>Proceed</Text>
+    </TouchableOpacity>
+
+    <TouchableOpacity style={styles.btns} onPress={handleSkip}>
+      <Text style={styles.buttons}>Skip</Text>
+    </TouchableOpacity>
+  </View>
   );
 }
 
@@ -168,4 +182,24 @@ const styles = StyleSheet.create({
     fontFamily: "montserrat",
     fontWeight: "bold",
   },
+  datePickerContainer: {
+    alignItems: "center",
+    marginVertical: 10,
+  },
+  dateButton: {
+    backgroundColor: "#F8F1FF",
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: "#D6BBFB",
+    alignItems: "center",
+    marginVertical: 10,
+  },
+  dateText: {
+    color: "#0F172A",
+    fontSize: 16,
+    fontFamily: "montserrat",
+  },
+  
 });

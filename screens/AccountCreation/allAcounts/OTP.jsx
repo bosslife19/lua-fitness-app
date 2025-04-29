@@ -42,6 +42,7 @@ export default function OTPMainEmail({ onNext }) {
     setIsLoading(true);
     try {
       const res = await axiosClient.post('/verify-email',{otp:otp.join('') })
+     
       if(res.data.status){
         Alert.alert('Successful', 'Email verified successfully');
         return onNext()
@@ -50,22 +51,24 @@ export default function OTPMainEmail({ onNext }) {
         Alert.alert('Error', 'Wrong Otp was provided')
       }
     } catch (error) {
-      
+      setIsLoading(false)
+      console.log(error);
+      console.log(error?.response?.data);
     }
 
-    setTimeout(() => {
-      setIsLoading(false);
-      if (otp.join('') === '123') {
-        setSuccessMessage('Email verification successful.');
-        setError('');
+    // setTimeout(() => {
+    //   setIsLoading(false);
+    //   if (otp.join('') === '123') {
+    //     setSuccessMessage('Email verification successful.');
+    //     setError('');
 
       
-        onNext();  
-      } else {
-        setError('Invalid Code');
-        setSuccessMessage('');
-      }
-    }, 3000);
+    //     onNext();  
+    //   } else {
+    //     setError('Invalid Code');
+    //     setSuccessMessage('');
+    //   }
+    // }, 3000);
   };
 
 

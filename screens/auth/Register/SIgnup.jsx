@@ -69,10 +69,12 @@ export default function SignupScreen() {
         }, 2000);
         return;
       }
-      throw new Error('Sign up failed')
+       Alert('Error', res.data.error);
+       throw new Error('Sign up failed')
      
     } catch (error) {
       console.log(error)
+      
     }finally{
       setButtonSpinner(false);
     }

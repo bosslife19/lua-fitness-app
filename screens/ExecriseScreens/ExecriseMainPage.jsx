@@ -123,7 +123,7 @@ const ExerciseMainPage = ({exercises}) => {
                     resizeMode="contain"
                     style={styles.icon}
                   />
-                  <Text style={styles.equipmentText}>{item.level}</Text>
+                  <Text style={styles.equipmentText}>{item.level==1?"Beginner":item.level==2?"Intermediate":item.level==3?'Advanced':'Professional'}</Text>
                 </View>
               </View>
             </View>

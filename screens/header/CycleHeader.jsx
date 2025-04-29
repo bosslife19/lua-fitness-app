@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { FontAwesome5, MaterialIcons } from '@expo/vector-icons'; // Import Material Icons
 import { useNavigation } from '@react-navigation/native';
+import { router } from 'expo-router';
 
 const Header = ({ name, backgroundColor = "#fff" }) => {
     const navigation = useNavigation(); // Get navigation object

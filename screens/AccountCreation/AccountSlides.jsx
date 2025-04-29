@@ -95,7 +95,7 @@ const Account = () => {
             stepIndex === 0 ? <OTPMainEmail onNext={handleNext} /> :
             stepIndex === 1 ? <SecurityDetails onNext={handleNext} /> :
             stepIndex === 2 ? <PersonalizationDetails onNext={handleNext} /> :
-            stepIndex === 3 ? <OptionDetails2 onNext={handleNext}/> :
+            // stepIndex === 3 ? <OptionDetails2 onNext={handleNext}/> :
             <OptionDetails1 onNext={handleNext}/>
             
           ) : (

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
 import { PaperProvider } from "react-native-paper";
 import { DatePickerModal } from "react-native-paper-dates";
@@ -6,15 +6,38 @@ import Header from "../../header/Header";
 import Transes from "../../../styles/Traning/Transes";
 import Award from "../../../components/chart/Award";
 import AChievement from "../../../components/chart/AwardCup";
+import axiosClient from "../../../axiosClient";
 
 const Workout = () => {
   const [visible, setVisible] = useState(false);
   const [range, setRange] = useState({ startDate: null, endDate: null });
+  const [streak, setStreak] = useState(0)
 
-  const onConfirm = ({ startDate, endDate }) => {
+  const onConfirm = async ({ startDate, endDate }) => {
     setRange({ startDate, endDate });
-    setVisible(false); // Close modal after selecting
+    
+  
+    try {
+      const res = await axiosClient.post("/workout-range-summary", {
+        start_date: startDate,
+        end_date: endDate,
+      });
+  
+      if (res.data.status) {
+        // console.log("Workout Summary:", res.data.summary); // { total_hours: 5, total_days: 3 }
+        // you can set this in state to display to the user
+        setStreak(res.data.summary.total_days);
+      }
+    } catch (error) {
+      console.error("Error fetching workout summary:", error?.response?.data || error.message);
+    }
+    setVisible(false); // Close the modal
   };
+  
+
+  useEffect(()=>{
+
+  }, [range])
 
   return (
     <PaperProvider>
@@ -22,8 +45,8 @@ const Workout = () => {
    
   
       <Header name="Streak" arrow="arrow-back" backgroundColor="#F1F5F9" />
-      <Text style={[Transes.headerText, { color: "#8A2BE2", fontSize: 34.6, textAlign: "center" }]}>30</Text>
-      <Text style={[Transes.contentText, { textAlign: "center" }]}>This is the longest streak you’ve ever attained</Text>
+      <Text style={[Transes.headerText, { color: "#8A2BE2", fontSize: 34.6, textAlign: "center" }]}>{streak}{streak==0?'':streak>1?"Days":' Day'}</Text>
+      <Text style={[Transes.contentText, { textAlign: "center" }]}>Keep going you are doing great!</Text>
 
       <View style={styles.streakContainer}>
         <View style={styles.awardRow}>

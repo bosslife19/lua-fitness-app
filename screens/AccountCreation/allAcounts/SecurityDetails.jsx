@@ -64,6 +64,8 @@ export default function SecurityDetails({onNext}) {
         console.log(error)
       }
       
+    }else{
+      Alert.alert('Required', 'Please input password before trying to proceed')
     }
     
   }

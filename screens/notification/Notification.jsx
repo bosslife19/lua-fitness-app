@@ -84,7 +84,7 @@ const Notification = () => {
               />
             ))}
 
-          <NotificationItem
+          {/* <NotificationItem
             icon={calendar}
             title="New Personalized Plan"
             description="Your trainer has updated your monthly workout plan. Check it out now!"
@@ -100,7 +100,7 @@ const Notification = () => {
             title="Trainer Message"
             description="Your trainer left you a note. Tap to read and stay motivated!"
             onPress={() => router.push("/(tabs)/home")}
-          />
+          /> */}
         </View>
       </ScrollView>
     </>

@@ -54,14 +54,16 @@ export default function HomeScreen() {
     const checkDailyLog = async () => {
       try {
         const res = await axiosClient.get('/check-daily-log');
-        if (res.data.missed) {
-          // console.log("Notification created for missed session.");
+        // if (res.data.missed) {
+       
 
-          const response = await axiosClient.get("/get-unread-notifications");
+          
+        // }
+        const response = await axiosClient.get("/get-unread-notifications");
           if(response.data.status){
+           
             setNotifications(response.data.notifications);
           }
-        }
       } catch (err) {
         console.error("Failed to check daily log", err);
       }
@@ -103,6 +105,7 @@ export default function HomeScreen() {
           style={styles.notificationContainer}
         >
           <Notification />
+          
           {
             notifications.length> 0 &&
             <View style={styles.notificationDot} />
