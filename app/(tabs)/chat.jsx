@@ -10,7 +10,7 @@ import { useRequest } from "../../hooks/useRequest";
 const chatList = [
   {
     id: "2",
-    name: "Admin",
+    name: "Trainer",
     lastMessage: "Hey! How are you?",
     lastSeen: "2 min ago",
     image: "https://randomuser.me/api/portraits/men/1.jpg",

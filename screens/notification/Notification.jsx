@@ -68,7 +68,7 @@ const Notification = () => {
       >
         <View style={styles.bg}>
           {notifications.length > 0 &&
-            notifications.map((notification) => (
+            notifications.map((notification, index) => (
               <NotificationItem
                 icon={
                   notification.type == "reminder"
@@ -81,6 +81,7 @@ const Notification = () => {
                 }
                 title={notification.title}
                 description={notification.message}
+                key={index}
               />
             ))}
 

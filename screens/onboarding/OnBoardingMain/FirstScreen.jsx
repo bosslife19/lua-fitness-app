@@ -35,12 +35,13 @@ export const onboardingSwiperData = [
   },
 ];
 
+
 export default function FirstScreen() {
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleGetStarted = async () => {
-    await AsyncStorage.setItem("onboarding", "completed");
+    await AsyncStorage.setItem("hasOnboarded", "true");
     router.push("/login");
   };
 
@@ -74,7 +75,7 @@ export default function FirstScreen() {
       onSlideChange={(index) => setCurrentIndex(index)}
       renderNextButton={() => (
         <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={()=>router.push('/(routes)/register')} style={commonstyles.welcomeButton}>
+          <TouchableOpacity onPress={handleGetStarted} style={commonstyles.welcomeButton}>
             <Text style={commonstyles.Getstart}>{currentIndex === 0 ? "Get Started" : "Continue"}</Text>
             <AntDesign name="arrowright" size={24} color="black" />
           </TouchableOpacity>

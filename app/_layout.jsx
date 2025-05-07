@@ -11,6 +11,7 @@ import "react-native-reanimated";
 
 // import { useColorScheme } from "@/hooks/useColorScheme";
 import { Platform } from "react-native";
+import {StripeProvider} from '@stripe/stripe-react-native'
 import { AuthProvider } from "../context/AuthContex";
 // import {NotificationProvider} from '../context/NotificationContext'
 import * as Notifications from 'expo-notifications'
@@ -49,6 +50,8 @@ export default function RootLayout() {
     }
   }, [fontsLoaded]);
 
+  const publicKey = process.env.EXPO_PUBLIC_STRIPE_TEST_PUBLIC;
+
   // Return null if fonts are loading and the platform is not iOS
   if (!fontsLoaded && Platform.OS !== "ios") {
     return null;
@@ -57,6 +60,7 @@ export default function RootLayout() {
   return (
     <AuthProvider>
       {/* <NotificationProvider> */}
+      <StripeProvider publishableKey={publicKey}>
       <Stack screenOptions={{ headerShown: false }}>
         {/* Other Screens */}
         <Stack.Screen name="index" />
@@ -74,6 +78,9 @@ export default function RootLayout() {
         <Stack.Screen name="(routes)/TrfConfirm" /> */}
  
        </Stack>
+      </StripeProvider>
+      
+     
       {/* </NotificationProvider> */}
   
     </AuthProvider>

@@ -34,6 +34,8 @@ export default function HomeScreen() {
   });
   const currentHour = new Date().getHours();
 
+ 
+
   const getGreeting = () => {
     if (currentHour < 12) return "Good Morning";
     if (currentHour < 17) return "Good Afternoon";

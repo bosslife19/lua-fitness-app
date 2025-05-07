@@ -4,15 +4,42 @@ import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 
 export default function OrderSummary() {
-  const subscriptionDetails = {
-    date: "November, 2026",
-    price: "$299.99",
-  };
+
+  const today = new Date();
+
+// 2. Advance by one month
+const nextMonth = new Date(today);
+nextMonth.setMonth(today.getMonth() + 1);
+
+// 3. Format as MM/DD/YYYY
+const pad2 = (n) => n.toString().padStart(2, '0');
+const formattedNextChargeDate = [
+  pad2(nextMonth.getMonth() + 1),     // months are 0‑indexed
+  pad2(nextMonth.getDate()),
+  nextMonth.getFullYear(),
+].join('/');
+
+const nextMonths = new Date(today);
+nextMonths.setMonth(today.getMonth() + 1);
+
+// 3. Get the month name and year
+const monthNames = [
+  "January", "February", "March",     "April",
+  "May",     "June",     "July",      "August",
+  "September","October", "November",  "December"
+];
+const formattedDate = `${monthNames[nextMonths.getMonth()]}, ${nextMonths.getFullYear()}`;
+
 
   const paymentDetails = {
-    paymentMethod: "PayPal",
-    nextChargeDate: "09/11/2026",
-    billingCycle: "Yearly",
+    paymentMethod: "Stripe",
+    nextChargeDate: formattedNextChargeDate,
+    billingCycle: "Monthly",
+  };
+
+  const subscriptionDetails = {
+    date: formattedDate,
+    price: "$299.99",
   };
 
   // Manage checkboxes in a single state
@@ -43,7 +70,7 @@ export default function OrderSummary() {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Subscription Plan</Text>
           <InfoRow label="Price" value={subscriptionDetails.price} />
-          <InfoRow label="Auto-renews on" value={subscriptionDetails.date} />
+          <InfoRow label="Renews on" value={subscriptionDetails.date} />
         </View>
 
         {/* Payment Details */}

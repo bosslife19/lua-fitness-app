@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // Importing icon for checkmark
 import { Calendar } from 'react-native-calendars';
-import period from '../../assets/images/account/perios.png';
+// import period from '../../assets/images/account/perios.png';
 import Header from '../../screens/header/CycleHeader';
 import {AuthContext} from '../../context/AuthContex';
 import { format, differenceInDays } from 'date-fns';
@@ -24,6 +24,9 @@ import angry from '../../assets/images/mingcute_angry-fill.png';
 import neutral from '../../assets/images/iconamoon_neutral-face-fill.png';
 import sad from '../../assets/images/mingcute_sad-fill.png';
 import content from '../../assets/images/material-symbols_sentiment-content.png';
+import period from '../../assets/images/Rectangle 5946.png';
+import period2 from '../../assets/images/Rectangle 5948.png';
+import period3 from '../../assets/images/Rectangle 5947.png';
 
 // comfort
 import comfort from '../../assets/images/emoji-happy-svgrepo-com 1.png';
@@ -33,10 +36,13 @@ import hot from '../../assets/images/Group 1000004282.png';
 import chill from '../../assets/images/Group 1000004285.png';
 import variable from '../../assets/images/Group 1000004285 (1).png';
 
+
+
 const getCycleBasedSymptoms = (menstrualStartDate) => {
   const today = new Date();
   const startDate = new Date(menstrualStartDate);
   const daysPassed = differenceInDays(today, startDate) % 28;
+  
 
   if (daysPassed >= 0 && daysPassed <= 4) {
     // Menstrual phase
@@ -209,14 +215,57 @@ const Cycle = () => {
       ))}
     </View>
   );
-
+  const todays = new Date();
+  const startDate = new Date(userDetails?.menstrual_start);
+  const daysPassed = differenceInDays(todays, startDate) % 28;
   return (
     <>
       <Header name="Your cycle" arrow="arrow-back" />
       <ScrollView style={styles.container}>
-        <View>
-          <Image source={period} style={{ width: '100%', height: 240 }} resizeMode="contain" />
-        </View>
+        <View style={styles.containers}>
+             {/* Images with absolute positioning */}
+             <Image
+               source={period2} // Replace with actual image source
+               style={[styles.image, styles.image1]}
+               resizeMode="contain"
+             />
+             <Image
+               source={period3} // Replace with actual image source
+               style={[styles.image, styles.image2]}
+               resizeMode="contain"
+             />
+             <Image
+               source={period} // Replace with actual image source
+               style={styles.image}
+               resizeMode="contain"
+             />
+       
+             {/* Text overlay for Luteal Phase */}
+             
+             <Text style={styles.title}>{daysPassed >= 0 && daysPassed <= 4?"Menstrual Phase":daysPassed >= 5 && daysPassed <= 9?"Follicular Phase":daysPassed >= 10 && daysPassed <= 14?"Ovulation Phase":daysPassed >= 15 && daysPassed <= 21?"Luteal Phase":"Late Luteal Phase"}</Text>
+             <Text style={styles.subtitle}>
+  {daysPassed >= 0 && daysPassed <= 4
+    ? "Bleeding period"
+    : daysPassed >= 5 && daysPassed <= 9
+    ? "Pre-ovulation period"
+    : daysPassed >= 10 && daysPassed <= 14
+    ? "Ovulation window"
+    : daysPassed >= 15 && daysPassed <= 21
+    ? "Post-ovulation period"
+    : "Pre-menstrual period"}
+</Text>
+<Text style={styles.description}>
+  {daysPassed >= 0 && daysPassed <= 4
+    ? "Energy may be lower; rest is important. Gentle movement is best."
+    : daysPassed >= 5 && daysPassed <= 9
+    ? "Energy begins to rise; great time for strength and cardio workouts."
+    : daysPassed >= 10 && daysPassed <= 14
+    ? "Energy peaks! Ideal time for high-intensity workouts and social activities."
+    : daysPassed >= 15 && daysPassed <= 21
+    ? "Energy might begin to dip; focus on balanced movement and self-care."
+    : "Energy level may start to dip, so listen to your body and focus on mindful movement"}
+</Text>
+           </View>
 
         <Calendar
           onDayPress={(day) => setSelectedDate(day.dateString)}
@@ -296,6 +345,18 @@ const styles = StyleSheet.create({
   section: {
     marginTop: 20,
   },
+  image: {
+    width: '100%',
+    height: 240,
+    position: 'absolute',
+    zIndex: 100,
+  },
+  image1: {
+    zIndex: 1, // Ensures this image is behind the others
+  },
+  image2: {
+    zIndex: 2, // Ensures this image is behind the last image
+  },
   sectionTitle: {
     backgroundColor:"#F1F5F9",
     width:"100%",
@@ -330,6 +391,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8FAFC',
     borderRadius: 10,
     padding: 12,
+  },
+  containers:{
+    position: 'relative',
+    width: '100%',
+    height: 240,
   },
   imageButtonSelected: {
     borderColor: '#8A2BE2',
@@ -391,7 +457,46 @@ const styles = StyleSheet.create({
     borderColor: '#8A2BE2',
     borderWidth: 1.5,
     borderRadius: 10,
-  }
+  },
+  title: {
+    // position: 'absolute',
+    // left: '48%',
+    alignItems:"center",
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#fff',
+    textAlign: 'center',
+    lineHeight:30,
+    zIndex: 100,
+    marginTop:"auto",
+    fontFamily: 'montserratMeduim',
+    paddingHorizontal:20
+  },
+  subtitle: {
+   
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#D0A2FC',
+    textAlign: 'center',
+     zIndex: 100,
+     marginBottom:"auto",
+     fontFamily: 'montserratMeduim',
+
+  },
+  description: {
+    fontFamily: 'montserratMeduim',
+    maxWidth: 250,
+    fontSize: 14,
+    marginBottom:"auto",
+    backgroundColor:"#9933F6",
+    padding:15,
+    marginHorizontal:"auto",
+    fontWeight: '400',
+    color: '#E4C7FF',
+    lineHeight: 20,
+    textAlign: 'center',
+     zIndex: 100,
+  },
 });
 
 export default Cycle;
