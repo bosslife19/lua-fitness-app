@@ -26,7 +26,7 @@ import axiosClient from "../../axiosClient";
 import { EvilIcons } from "@expo/vector-icons";
 
 export default function HomeScreen() {
-  const { userDetails } = useContext(AuthContext);
+  const { userDetails, setUserDetails } = useContext(AuthContext);
   const [notifications, setNotifications] = useState([]);
   let backupDetails;
   AsyncStorage.getItem("userDetails").then((data) => {
@@ -42,6 +42,23 @@ export default function HomeScreen() {
     return "Good Evening";
   };
   const [latest, setLatest] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await axiosClient.get('/user');
+  
+        const user = res.data.user;
+        setUserDetails(user);
+  
+        
+        await AsyncStorage.setItem("userDetails", JSON.stringify(user));
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    })();
+  }, []);
+  
 
   useEffect(() => {
     const getLatestExercise = async () => {
@@ -74,9 +91,19 @@ export default function HomeScreen() {
     checkDailyLog();
   }, []);
 
+  useEffect(() => {
+    if (userDetails?.next_payment_date) {
+      const today = new Date();
+      const nextPaymentDate = new Date(userDetails.next_payment_date);
   
-  
+      // If nextPaymentDate is today or in the past
+      if (nextPaymentDate <= today) {
+        router.replace('/(routes)/payment'); // Redirect to your payment screen
+      }
+    }
+  }, [userDetails]);
 
+  
   return (
     <>
       <StatusBar
@@ -213,8 +240,13 @@ export default function HomeScreen() {
         </View>
       </ScrollView>
     </>
-  );
+  ); 
 }
+  
+  
+
+ 
+
 
 const styles = StyleSheet.create({
   scrollViewContainer: {

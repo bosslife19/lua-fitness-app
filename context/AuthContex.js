@@ -1,13 +1,24 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({children})=>{
-    const [user, setUser] = useState(null)
+    const [userDetails, setUserDetails] = useState(null);
 
-    const userDets = AsyncStorage.getItem('userDetails').then(res=>setUser(JSON.parse(res))).catch(e=>console.log(e))
-    const [userDetails, setUserDetails] = useState(user);
+  useEffect(() => {
+    (async () => {
+      try {
+        const user = await AsyncStorage.getItem("userDetails");
+        if (user) {
+          setUserDetails(JSON.parse(user));
+        }
+      } catch (e) {
+        console.log("Error fetching userDetails:", e);
+      }
+    })();
+  }, []);
+
     return (
         <AuthContext.Provider value={{userDetails, setUserDetails}}>
             {children}
