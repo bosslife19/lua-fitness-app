@@ -13,7 +13,7 @@ import "react-native-reanimated";
 import { Platform } from "react-native";
 import {StripeProvider} from '@stripe/stripe-react-native'
 import { AuthProvider } from "../context/AuthContex";
-// import {NotificationProvider} from '../context/NotificationContext'
+ import {NotificationProvider} from '../context/NotificationContext'
 import * as Notifications from 'expo-notifications'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -50,7 +50,7 @@ export default function RootLayout() {
     }
   }, [fontsLoaded]);
 
-  const publicKey = process.env.EXPO_PUBLIC_STRIPE_TEST_PUBLIC;
+  const publicKey = process.env.EXPO_PUBLIC_STRIPE_PUBLIC;
 
   // Return null if fonts are loading and the platform is not iOS
   if (!fontsLoaded && Platform.OS !== "ios") {
@@ -59,7 +59,7 @@ export default function RootLayout() {
 
   return (
     <AuthProvider>
-      {/* <NotificationProvider> */}
+      <NotificationProvider>
       <StripeProvider publishableKey={publicKey}>
       <Stack screenOptions={{ headerShown: false }}>
         {/* Other Screens */}
@@ -81,7 +81,7 @@ export default function RootLayout() {
       </StripeProvider>
       
      
-      {/* </NotificationProvider> */}
+      </NotificationProvider>
   
     </AuthProvider>
      
