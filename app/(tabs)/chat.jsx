@@ -99,7 +99,7 @@ const ChatListScreen = () => {
 
             >
               {/* <Image source={{ uri: item.image }} style={styles.profileImage} /> */}
-              <EvilIcons name="user" size={50} color="black" />
+              <EvilIcons name="user" size={60} color="black" style={{top:'-20%'}}/>
               <View style={styles.chatDetails}>
                 <Text style={styles.name}>{item.name}</Text>
                 <Text style={styles.message}>{messages[messages.length-1]?.content}</Text>
@@ -126,7 +126,7 @@ const ChatListScreen = () => {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff", padding: 10 },
   chatItem: { flexDirection: "row", padding: 10, alignItems: "center", borderBottomWidth: 1, borderColor: "#E2E8F0" },
-  profileImage: { width: 50, height: 50, borderRadius: 25 },
+  profileImage: { width: 50, height: 50, borderRadius: 25, },
   chatDetails: { flex: 1, marginLeft: 10 },
   name: { fontSize: 14, fontWeight: "bold" },
   message: { color: "#94A3B8" },
