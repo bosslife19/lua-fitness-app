@@ -18,12 +18,12 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.lua.lua",
-      "googleServicesFile":"./google-services.json"
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/logomain.png"
     },
     "plugins": [
       "expo-router",
@@ -54,6 +54,12 @@
       "eas": {
         "projectId": "a746e465-d739-45dc-acbb-74f7ed6f4316"
       }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/a746e465-d739-45dc-acbb-74f7ed6f4316"
     }
   }
 }

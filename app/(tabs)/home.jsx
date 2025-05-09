@@ -64,6 +64,7 @@ export default function HomeScreen() {
     const getLatestExercise = async () => {
       const res = await axiosClient.get("/get-latest-exercise");
      
+     
       setLatest(res.data.exercise);
     };
     getLatestExercise();
